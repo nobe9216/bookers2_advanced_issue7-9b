@@ -1,0 +1,22 @@
+<table class="comments" 'container'>
+  <% book.post_comments.each do |post_comment| %>
+    <tr class='row'>
+      <td class='col-md-5'>
+        <%= attachment_image_tag post_comment.user, :profile_image, size: "50x50", fallback: "no-image-icon.jpg" %><br>
+        <%= post_comment.user.name %>
+      </td>
+      <td class='col-md-5'>
+        <%= post_comment.comment %>
+      </td>
+      <td class='col-md-2'>
+        <% if post_comment.user == current_user %>
+          <%= link_to 'Destroy', book_post_comment_path(book, post_comment), method: :delete, remote: true, class: "btn btn-sm btn-danger" %>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+</table>
+<%= form_with(model:[book, post_comment], remote: true ) do |f| %>
+  <%= f.text_area :comment, rows:'5',placeholder: "コメントをここに", class: "input_comment" %><br>
+  <%= f.submit "送信する" %>
+<% end %>
